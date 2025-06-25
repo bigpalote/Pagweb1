@@ -1,0 +1,195 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EquiliPro - Calculadora de Equilibrio Químico</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <img src="logo.png" alt="Logo EquiliPro">
+                <h1>EquiliPro</h1>
+            </div>
+            <nav>
+                <a href="#inicio">Inicio</a>
+                <a href="#calculadora">Calculadora</a>
+                <a href="#teoria">Teoría</a>
+                <a href="#ejemplo">Ejemplo</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="hero-content">
+                <h2>Tu asistente para el Equilibrio Químico</h2>
+                <p>Domina el principio de Le Chatelier y resuelve ejercicios de equilibrio de forma fácil y rápida. ¡Empecemos!</p>
+                <a href="#calculadora" class="cta-button">Ir a la Calculadora</a>
+            </div>
+        </section>
+
+        <section id="calculadora">
+            <h2><span class="icon">🧮</span> Calculadora de Equilibrio Químico</h2>
+            <div id="calculator-error" class="error-message hidden"></div>
+            <form id="equilibrium-calculator">
+                <div class="input-group">
+                    <label for="equation">1. Ecuación Química Balanceada (usar <=> para el equilibrio)</label>
+                    <input type="text" id="equation" placeholder="Ej: N2 + 3 H2 <=> 2 NH3" required>
+                </div>
+
+                <div class="input-group">
+                     <label>2. Tipo de Equilibrio y Unidades</label>
+                    <select id="equilibrium-type">
+                        <option value="kc" selected>Homogéneo (Líquido/Acuoso) - Kc</option>
+                        <option value="kp">Gaseoso - Kp</option>
+                    </select>
+                </div>
+                
+                <div id="species-inputs">
+                    
+                </div>
+
+                <div class="input-group">
+                    <label for="equilibrium-species">4. Especie para determinar el cambio (x)</label>
+                    <select id="equilibrium-species" disabled>
+                        <option>Primero ingresa la ecuación</option>
+                    </select>
+                    <input type="number" id="equilibrium-value" step="any" placeholder="Valor en el equilibrio" disabled>
+                </div>
+                 <div id="gas-specific-inputs" class="input-group-row hidden">
+                    <div class="input-group">
+                        <label for="temperature">Temperatura (para cálculos de Kp)</label>
+                        <input type="number" id="temperature" value="25">
+                        <select id="temp-unit">
+                            <option value="C" selected>°C</option>
+                            <option value="K">K</option>
+                        </select>
+                    </div>
+                     <div class="input-group">
+                        <label for="volume">Volumen (L, para cálculos de Kp)</label>
+                        <input type="number" id="volume" value="1" step="any">
+                    </div>
+                </div>
+
+                <button type="submit" class="solve-button">¡Resolver y Explicar!</button>
+            </form>
+            <div id="result-container" class="hidden">
+                <h3>Resultados</h3>
+                <div id="ice-table-container"></div>
+                <div id="calculation-steps"></div>
+            </div>
+        </section>
+
+        <section id="teoria">
+            <h2><span class="icon">🧪</span> Entendiendo la Teoría</h2>
+            <div class="theory-content">
+                <div class="theory-card">
+                    <h3>Equilibrio Químico</h3>
+                    <p>Una reacción reversible alcanza el equilibrio químico cuando la velocidad de la reacción hacia adelante es igual a la velocidad de la reacción inversa. En este punto, las concentraciones de reactivos y productos permanecen constantes.</p>
+                </div>
+                <div class="theory-card">
+                    <h3>Principio de Le Chatelier</h3>
+                    <p>Si un sistema en equilibrio es perturbado por un cambio (en concentración, presión o temperatura), el sistema se ajustará para contrarrestar ese cambio y restablecer un nuevo equilibrio.</p>
+                    <img src="le-chatelier-effect.png" alt="Diagrama del Principio de Le Chatelier" class="theory-image">
+                </div>
+                <div class="theory-card">
+                    <h3>Constantes Kc y Kp</h3>
+                    <p>La constante de equilibrio (K) indica la relación entre productos y reactivos en el equilibrio. <strong>Kc</strong> se usa para concentraciones (mol/L) y <strong>Kp</strong> para presiones parciales (atm).</p>
+                    <img src="kc-kp-comparison.png" alt="Tabla comparativa de Kc y Kp" class="theory-image">
+                </div>
+            </div>
+        </section>
+
+        <section id="ejemplo">
+            <h2><span class="icon">💡</span> Ejemplo Resuelto</h2>
+            <p>Veamos un caso práctico. Para la reacción <strong>2 SO₂(g) + O₂(g) <=> 2 SO₃(g)</strong> en un recipiente de 10 L, se inicia con 0.5 mol de SO₂ y 0.2 mol de O₂. En el equilibrio, se encuentran 0.15 mol de O₂.</p>
+             <div id="example-explanation">
+                <h4>Paso 1: Tabla ICE</h4>
+                <p>Construimos la tabla ICE (Inicial, Cambio, Equilibrio) en moles.</p>
+                <div class="ice-table-container-static">
+                    <table>
+                        <thead>
+                            <tr><th>Especie</th><th>Inicial (mol)</th><th>Cambio (mol)</th><th>Equilibrio (mol)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>SO₂</td><td>0.5</td><td>-2x</td><td>0.5 - 2x</td></tr>
+                            <tr><td>O₂</td><td>0.2</td><td>-x</td><td>0.2 - x</td></tr>
+                            <tr><td>SO₃</td><td>0</td><td>+2x</td><td>2x</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4>Paso 2: Encontrar 'x'</h4>
+                <p>Sabemos que en el equilibrio hay 0.15 mol de O₂. Entonces: <br><code>0.2 - x = 0.15</code> <br>Resolviendo, encontramos que <strong>x = 0.05 mol</strong>.</p>
+                <h4>Paso 3: Calcular Concentraciones en Equilibrio</h4>
+                <p>Usamos x=0.05 y el volumen de 10L:</p>
+                <ul>
+                    <li>[SO₂] = (0.5 - 2*0.05) / 10 L = 0.4 / 10 = <strong>0.04 M</strong></li>
+                    <li>[O₂] = (0.2 - 0.05) / 10 L = 0.15 / 10 = <strong>0.015 M</strong></li>
+                    <li>[SO₃] = (2 * 0.05) / 10 L = 0.1 / 10 = <strong>0.01 M</strong></li>
+                </ul>
+                <h4>Paso 4: Calcular Kc</h4>
+                <p>Ahora usamos la fórmula de la constante de equilibrio:</p>
+                <p><code>Kc = [SO₃]² / ([SO₂]² * [O₂])</code></p>
+                <p><code>Kc = (0.01)² / ((0.04)² * 0.015)</code></p>
+                <p><code>Kc = 0.0001 / (0.0016 * 0.015) = 0.0001 / 0.000024</code></p>
+                <p><strong>Kc ≈ 4.17</strong></p>
+             </div>
+        </section>
+
+        <section id="contacto">
+            <h2><span class="icon">✉️</span> Contacto</h2>
+            <p>¿Tienes preguntas o sugerencias? ¡Nos encantaría escucharte!</p>
+            <p>Somos un grupo de estudiantes apasionados por hacer la química más accesible. Puedes encontrarnos en el campus o enviarnos un correo a <strong>hola@equilipro.edu</strong>.</p>
+        </section>
+    </main>
+
+    <div id="chatbot-container">
+        <div id="chatbot-window" class="hidden">
+            <div id="chatbot-header">
+                Asistente Virtual
+                <button id="close-chatbot">×</button>
+            </div>
+            <div id="chatbot-body">
+                <div class="bot-message">
+                    ¡Hola! Soy Equi, tu asistente. ¿Cómo puedo ayudarte? Elige un tema:
+                </div>
+                <div id="chatbot-faq-container">
+                    <h4 class="faq-category-title">🤔 Conceptos Clave</h4>
+                    <div class="faq-category">
+                        <button class="faq-question" data-topic="le-chatelier">¿Qué es el principio de Le Chatelier?</button>
+                        <button class="faq-question" data-topic="ice-table">¿Cómo se usa una tabla ICE?</button>
+                        <button class="faq-question" data-topic="kc-kp">¿Qué es Kc y Kp?</button>
+                        <button class="faq-question" data-topic="what-is-x">¿Qué significa la "x" en la tabla ICE?</button>
+                    </div>
+                    <h4 class="faq-category-title">👣 Guía Paso a Paso</h4>
+                    <div class="faq-category">
+                         <button class="faq-question" data-topic="how-to-solve">¿Cómo resuelvo un problema de equilibrio?</button>
+                    </div>
+                     <h4 class="faq-category-title">💡 Ejemplos Prácticos</h4>
+                    <div class="faq-category">
+                        <button class="faq-question" data-topic="show-example">Muéstrame un ejemplo resuelto</button>
+                    </div>
+                </div>
+                <div id="faq-answer-container" class="hidden">
+                    <div id="faq-answer"></div>
+                    <button id="back-to-questions" class="faq-question">← Volver a las preguntas</button>
+                </div>
+            </div>
+        </div>
+        <button id="chatbot-toggle">
+            <img src="chatbot-icon.png" alt="Abrir chatbot">
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
